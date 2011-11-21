@@ -2,9 +2,31 @@ Meteorocks is an Asteroids clone, being programmed in XNA. Help with sprites, ba
 
 For now, all the game has is a ship which translates and rotates through the screen.
 
+
+Yes, there is a empty Game Library for now. We are going to add features, and when the feature needs a better design, it will be placed.
+
+For example: when I add other object on the screen (let's say, a bullet), I'm going to make a superclass for the Ship AND the bullet which handles all the draw and stuff. The Library will have the most generic stuff (as the future physics engine), and the game itself will have game specific classes.
+
+===================================================================================
+PLANNED FEATURES
+===================================================================================
+
+1. A fire animation for the ship's rockets
+2. Bullets
+3. Meteors
+
+===================================================================================
+PLANNED SOFTWARE DESIGN CHANGES
+===================================================================================
+
+1. A more generic InputHandle, which will accept easily different types of controllers (I'm planning a interface which each input handle will implement).
+2. A "Sprite" superclass, which every object in the game will implement
+3. A "Ship" superclass, which will have different children, each representing a different type of spaceship.
+
 ===================================================================================
 LICENSE
 ===================================================================================
+
 Copyright (c) 2011, Yuri da Costa Albuquerque
 All rights reserved.
 
