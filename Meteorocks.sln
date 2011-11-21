@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Meteorocks", "Meteorocks\Meteorocks\Meteorocks.csproj", "{4A1C14AC-C55C-46B5-A6D5-272F7BD7E234}"
+EndProject
+Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "MeteorocksContent", "Meteorocks\MeteorocksContent\MeteorocksContent.contentproj", "{7763AD76-EC2E-4820-8A8D-78A39FCB7343}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Icone2DLibrary", "Icone2DLibrary\Icone2DLibrary.csproj", "{59656D9F-C0B0-45CD-BC53-3AE48334CE8A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4A1C14AC-C55C-46B5-A6D5-272F7BD7E234}.Debug|x86.ActiveCfg = Debug|x86
+		{4A1C14AC-C55C-46B5-A6D5-272F7BD7E234}.Debug|x86.Build.0 = Debug|x86
+		{4A1C14AC-C55C-46B5-A6D5-272F7BD7E234}.Release|x86.ActiveCfg = Release|x86
+		{4A1C14AC-C55C-46B5-A6D5-272F7BD7E234}.Release|x86.Build.0 = Release|x86
+		{7763AD76-EC2E-4820-8A8D-78A39FCB7343}.Debug|x86.ActiveCfg = Debug|x86
+		{7763AD76-EC2E-4820-8A8D-78A39FCB7343}.Release|x86.ActiveCfg = Release|x86
+		{59656D9F-C0B0-45CD-BC53-3AE48334CE8A}.Debug|x86.ActiveCfg = Debug|x86
+		{59656D9F-C0B0-45CD-BC53-3AE48334CE8A}.Debug|x86.Build.0 = Debug|x86
+		{59656D9F-C0B0-45CD-BC53-3AE48334CE8A}.Release|x86.ActiveCfg = Release|x86
+		{59656D9F-C0B0-45CD-BC53-3AE48334CE8A}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
