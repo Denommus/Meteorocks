@@ -5,32 +5,28 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Icone2DLibrary;
 
 namespace Meteorocks.Objects
 {
-    public class Ship
+    public class Ship : Sprite
     {
         public Ship(Game game)
         {
-            this.game = game;
-            texture = game.Content.Load<Texture2D>(@"Sprites/shipSprite");
-            origin = Vector2.Zero;
-            origin.X = texture.Width / 2;
-            origin.Y = texture.Height / 2;
+            BeforeConstructor(game, @"Sprites/shipSprite");
+            
             position = Vector2.Zero;
             position.X = game.GraphicsDevice.Viewport.Width / 2;
             position.Y = game.GraphicsDevice.Viewport.Height / 2;
+
+            scale = 0.7f;
+
+            AfterConstrutor();
         }
 
-        Game game;
-        Vector2 position;
-        Vector2 origin;
         const float acceleration = 250.0f;
         const float maximumSpeed = 250.0f;
         Vector2 speed = Vector2.Zero;
-        float scale = 0.7f;
-        float rotation = 0.0f;
-        Texture2D texture;
 
         public void Update(float seconds, KeyboardState keyState)
         {
@@ -72,11 +68,10 @@ namespace Meteorocks.Objects
                 position.Y += viewport.Height;
         }
 
-        public void Draw(SpriteBatch sprite)
+        public override void Draw(SpriteBatch sprite)
         {
             Viewport viewport = game.GraphicsDevice.Viewport;
-            sprite.Draw(texture, position, new Rectangle(0, 0, texture.Width, texture.Height),
-                Color.White, rotation, origin, scale, SpriteEffects.None, 0f);
+            base.Draw(sprite);
 
             if (position.X > (viewport.Width - (scale * texture.Width)))
                 sprite.Draw(texture, position - new Vector2(viewport.Width, 0), new Rectangle(0, 0, texture.Width, texture.Height),
