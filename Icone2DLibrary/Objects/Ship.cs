@@ -23,11 +23,14 @@ namespace Icone2DLibrary.Objects
 
         const float acceleration = 250.0f;
         const float maximumSpeed = 250.0f;
+        float timeUntilNextShot = 0.0f;
         Vector2 speed = Vector2.Zero;
         KeyboardState keyState;
 
         public override void Update(float seconds)
         {
+            if (timeUntilNextShot > 0)
+                timeUntilNextShot -= seconds;
             Viewport viewport = game.GraphicsDevice.Viewport;
             if (keyState.IsKeyDown(Keys.Right))
                 rotation += 5 * seconds;
@@ -64,6 +67,12 @@ namespace Icone2DLibrary.Objects
                 position.Y -= viewport.Height;
             if (position.Y < 0)
                 position.Y += viewport.Height;
+
+            if (timeUntilNextShot <= 0 && keyState.IsKeyDown(Keys.Space))
+            {
+                scene.AddBullet(rotation, position);
+                timeUntilNextShot = 1;
+            }
         }
 
         public override void Draw(SpriteBatch spriteBatch)
@@ -88,7 +97,7 @@ namespace Icone2DLibrary.Objects
 
         public KeyboardState KeyState
         {
-            set { keyState = value; }
+            set{keyState=value;}
         }
     }
 }

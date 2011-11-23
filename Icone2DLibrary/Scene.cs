@@ -26,6 +26,7 @@ namespace Icone2DLibrary
         }
 
         List<Sprite> sprites = new List<Sprite>();
+        List<Sprite> markedToRemove = new List<Sprite>();
         Ship player;
         SpriteBatch spriteBatch;
 
@@ -57,6 +58,13 @@ namespace Icone2DLibrary
                 s.Update(seconds);
             }
 
+            foreach (Sprite s in markedToRemove)
+            {
+                sprites.Remove(s);
+            }
+
+            markedToRemove.RemoveRange(0, markedToRemove.Count);
+
             base.Update(gameTime);
         }
 
@@ -79,6 +87,21 @@ namespace Icone2DLibrary
             t.Initialize();
             t.AfterInitialize();
             sprites.Add(t);
+        }
+
+        public void AddBullet(float rotation, Vector2 shipPosition)
+        {
+            Bullet bullet = new Bullet();
+            bullet.BeforeInitialize(this);
+            bullet.Initialize();
+            bullet.AfterInitialize();
+            bullet.SetInitialParams(rotation, shipPosition);
+            sprites.Add(bullet);
+        }
+
+        public void RemoveSprite(Sprite remove)
+        {
+            markedToRemove.Add(remove);
         }
 
         public Ship InitializeShip()
