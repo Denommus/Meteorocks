@@ -33,7 +33,7 @@ namespace Icone2DLibrary
         protected Vector2 position = Vector2.Zero;
         protected Vector2 origin;
 
-        public abstract void Update(float seconds, KeyboardState keyState);
+        public abstract void Update(float seconds);
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {

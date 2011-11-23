@@ -24,8 +24,9 @@ namespace Icone2DLibrary.Objects
         const float acceleration = 250.0f;
         const float maximumSpeed = 250.0f;
         Vector2 speed = Vector2.Zero;
+        KeyboardState keyState;
 
-        public override void Update(float seconds, KeyboardState keyState)
+        public override void Update(float seconds)
         {
             Viewport viewport = game.GraphicsDevice.Viewport;
             if (keyState.IsKeyDown(Keys.Right))
@@ -83,6 +84,11 @@ namespace Icone2DLibrary.Objects
             if (position.Y < (scale * texture.Height))
                 spriteBatch.Draw(texture, position + new Vector2(0, viewport.Height), new Rectangle(0, 0, texture.Width, texture.Height),
                     Color.White, rotation, origin, scale, SpriteEffects.None, 0f);
+        }
+
+        public KeyboardState KeyState
+        {
+            set { keyState = value; }
         }
     }
 }

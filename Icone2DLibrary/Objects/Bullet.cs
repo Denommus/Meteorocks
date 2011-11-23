@@ -15,7 +15,7 @@ namespace Icone2DLibrary.Objects
             texture = game.Content.Load<Texture2D>("Blah");
         }
 
-        public override void Update(float seconds, Microsoft.Xna.Framework.Input.KeyboardState keyState)
+        public override void Update(float seconds)
         {
             throw new NotImplementedException();
         }

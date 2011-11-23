@@ -22,10 +22,11 @@ namespace Icone2DLibrary
             : base(game)
         {
             spriteBatch = new SpriteBatch(game.GraphicsDevice);
-            AddSprite<Ship>();
+            player = InitializeShip();
         }
 
         List<Sprite> sprites = new List<Sprite>();
+        Ship player;
         SpriteBatch spriteBatch;
 
         /// <summary>
@@ -47,10 +48,13 @@ namespace Icone2DLibrary
         {
             float seconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
             KeyboardState keyState = Keyboard.GetState();
+            player.KeyState = keyState;
+
+            player.Update(seconds);
 
             foreach(Sprite s in sprites)
             {
-                s.Update(seconds, keyState);
+                s.Update(seconds);
             }
 
             base.Update(gameTime);
@@ -59,6 +63,7 @@ namespace Icone2DLibrary
         public override void Draw(GameTime gameTime)
         {
             spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
+            player.Draw(spriteBatch);
             foreach (Sprite s in sprites)
             {
                 s.Draw(spriteBatch);
@@ -74,6 +79,15 @@ namespace Icone2DLibrary
             t.Initialize();
             t.AfterInitialize();
             sprites.Add(t);
+        }
+
+        public Ship InitializeShip()
+        {
+            Ship ship = new Ship();
+            ship.BeforeInitialize(this);
+            ship.Initialize();
+            ship.AfterInitialize();
+            return ship;
         }
     }
 }
