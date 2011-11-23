@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-using Meteorocks.Objects;
+using Icone2DLibrary;
 
 namespace Meteorocks
 {
@@ -18,9 +18,8 @@ namespace Meteorocks
     public class Meteorocks : Microsoft.Xna.Framework.Game
     {
         GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
 
-        Ship ship;
+        Scene scene;
 
         public Meteorocks()
         {
@@ -47,10 +46,8 @@ namespace Meteorocks
         /// </summary>
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            ship = new Ship(this);
+            scene = new Scene(this);
+            Components.Add(scene);
         }
 
         /// <summary>
@@ -75,8 +72,6 @@ namespace Meteorocks
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-            ship.Update(seconds, state);
-
             base.Update(gameTime);
         }
 
@@ -87,10 +82,6 @@ namespace Meteorocks
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
-            ship.Draw(spriteBatch);
-            spriteBatch.End();
 
             base.Draw(gameTime);
         }

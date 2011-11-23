@@ -7,28 +7,25 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Icone2DLibrary;
 
-namespace Meteorocks.Objects
+namespace Icone2DLibrary.Objects
 {
     public class Ship : Sprite
     {
-        public Ship(Game game)
+        public override void Initialize()
         {
-            BeforeConstructor(game, @"Sprites/shipSprite");
-            
+            texture = game.Content.Load<Texture2D>(@"Sprites/shipSprite");
             position = Vector2.Zero;
             position.X = game.GraphicsDevice.Viewport.Width / 2;
             position.Y = game.GraphicsDevice.Viewport.Height / 2;
 
             scale = 0.7f;
-
-            AfterConstrutor();
         }
 
         const float acceleration = 250.0f;
         const float maximumSpeed = 250.0f;
         Vector2 speed = Vector2.Zero;
 
-        public void Update(float seconds, KeyboardState keyState)
+        public override void Update(float seconds, KeyboardState keyState)
         {
             Viewport viewport = game.GraphicsDevice.Viewport;
             if (keyState.IsKeyDown(Keys.Right))
@@ -68,23 +65,23 @@ namespace Meteorocks.Objects
                 position.Y += viewport.Height;
         }
 
-        public override void Draw(SpriteBatch sprite)
+        public override void Draw(SpriteBatch spriteBatch)
         {
             Viewport viewport = game.GraphicsDevice.Viewport;
-            base.Draw(sprite);
+            base.Draw(spriteBatch);
 
             if (position.X > (viewport.Width - (scale * texture.Width)))
-                sprite.Draw(texture, position - new Vector2(viewport.Width, 0), new Rectangle(0, 0, texture.Width, texture.Height),
+                spriteBatch.Draw(texture, position - new Vector2(viewport.Width, 0), new Rectangle(0, 0, texture.Width, texture.Height),
                     Color.White, rotation, origin, scale, SpriteEffects.None, 0f);
             if (position.X < (scale * texture.Width))
-                sprite.Draw(texture, position + new Vector2(viewport.Width, 0), new Rectangle(0, 0, texture.Width, texture.Height),
+                spriteBatch.Draw(texture, position + new Vector2(viewport.Width, 0), new Rectangle(0, 0, texture.Width, texture.Height),
                     Color.White, rotation, origin, scale, SpriteEffects.None, 0f);
 
             if (position.Y > (viewport.Height - (scale * texture.Height)))
-                sprite.Draw(texture, position - new Vector2(0, viewport.Height), new Rectangle(0, 0, texture.Width, texture.Height),
+                spriteBatch.Draw(texture, position - new Vector2(0, viewport.Height), new Rectangle(0, 0, texture.Width, texture.Height),
                     Color.White, rotation, origin, scale, SpriteEffects.None, 0f);
             if (position.Y < (scale * texture.Height))
-                sprite.Draw(texture, position + new Vector2(0, viewport.Height), new Rectangle(0, 0, texture.Width, texture.Height),
+                spriteBatch.Draw(texture, position + new Vector2(0, viewport.Height), new Rectangle(0, 0, texture.Width, texture.Height),
                     Color.White, rotation, origin, scale, SpriteEffects.None, 0f);
         }
     }
