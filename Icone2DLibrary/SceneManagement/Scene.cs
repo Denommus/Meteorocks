@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Media;
 using Icone2DLibrary.Objects;
 
 
-namespace Icone2DLibrary
+namespace Icone2DLibrary.SceneManagement
 {
     /// <summary>
     /// This is a game component that implements IUpdateable.
@@ -25,8 +25,7 @@ namespace Icone2DLibrary
             player = InitializeShip();
         }
 
-        List<Sprite> sprites = new List<Sprite>();
-        List<Sprite> markedToRemove = new List<Sprite>();
+        List<ISceneObject> sprites = new List<ISceneObject>();
         Ship player;
         SpriteBatch spriteBatch;
 
@@ -53,17 +52,12 @@ namespace Icone2DLibrary
 
             player.Update(seconds);
 
-            foreach(Sprite s in sprites)
+            for(int i=0;i<sprites.Count;i++)
             {
-                s.Update(seconds);
+                ISceneObject s = sprites[i];
+                if (s != null)
+                    s.Update(seconds);
             }
-
-            foreach (Sprite s in markedToRemove)
-            {
-                sprites.Remove(s);
-            }
-
-            markedToRemove.RemoveRange(0, markedToRemove.Count);
 
             base.Update(gameTime);
         }
@@ -72,7 +66,7 @@ namespace Icone2DLibrary
         {
             spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
             player.Draw(spriteBatch);
-            foreach (Sprite s in sprites)
+            foreach (ISceneObject s in sprites)
             {
                 s.Draw(spriteBatch);
             }
@@ -80,37 +74,31 @@ namespace Icone2DLibrary
             base.Draw(gameTime);
         }
 
-        public void AddSprite<T>() where T : Sprite, new()
+        public void AddSceneObject<T>() where T : ISceneObject, new()
         {
-            Sprite t = new T();
-            t.BeforeInitialize(this);
-            t.Initialize();
-            t.AfterInitialize();
+            ISceneObject t = new T();
+            t.Initialize(this);
             sprites.Add(t);
         }
 
-        public void AddBullet(float rotation, Vector2 shipPosition)
+        public void AddBullet(float rotation, Vector2 shipPosition, Vector2 shipSpeed)
         {
             Bullet bullet = new Bullet();
-            bullet.BeforeInitialize(this);
-            bullet.Initialize();
-            bullet.AfterInitialize();
-            bullet.SetInitialParams(rotation, shipPosition);
+            bullet.Initialize(this);
+            bullet.SetInitialParams(rotation, shipPosition, shipSpeed);
             sprites.Add(bullet);
-        }
-
-        public void RemoveSprite(Sprite remove)
-        {
-            markedToRemove.Add(remove);
         }
 
         public Ship InitializeShip()
         {
             Ship ship = new Ship();
-            ship.BeforeInitialize(this);
-            ship.Initialize();
-            ship.AfterInitialize();
+            ship.Initialize(this);
             return ship;
+        }
+
+        public void RemoveSceneObject(ISceneObject sceneObject)
+        {
+            sprites.Remove(sceneObject);
         }
     }
 }

@@ -5,33 +5,48 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Icone2DLibrary;
 using Microsoft.Xna.Framework.Graphics;
+using Icone2DLibrary.SceneManagement;
+using Icone2DLibrary.Objects.SpriteStruct;
 
 namespace Icone2DLibrary.Objects
 {
-    class Bullet : Sprite
+    class Bullet : ISceneObject
     {
-        public override void Initialize()
+        public void Initialize(Scene scene)
         {
-            texture = game.Content.Load<Texture2D>(@"Sprites/Fireball");
-            scale = 0.2f;
+            this.scene = scene;
+            game = scene.Game;
+            sprite.texture = game.Content.Load<Texture2D>(@"Sprites/Fireball");
+            sprite.scale = 0.2f;
+            sprite.origin = new Vector2(sprite.texture.Width / 2, sprite.texture.Height / 2);
         }
 
-        Vector2 speed = Vector2.Zero;
-        float timeUntilVanish = 2;
 
-        public void SetInitialParams(float rotation, Vector2 position)
+        Scene scene;
+        Game game;
+        Vector2 speed;
+        float distanceUntilVanish = 200;
+        Sprite sprite = new Sprite();
+
+        public void SetInitialParams(float rotation, Vector2 position, Vector2 shipSpeed)
         {
-            this.position = position;
-            this.rotation = rotation;
-            speed = new Vector2((float)Math.Sin(rotation), -(float)Math.Cos(rotation)) * 300;
+            sprite.position = position;
+            sprite.rotation = rotation;
+            speed = new Vector2((float)Math.Sin(rotation), -(float)Math.Cos(rotation)) * 500;
+            speed += shipSpeed;
         }
 
-        public override void Update(float seconds)
+        public void Update(float seconds)
         {
-            position += speed * seconds;
-            timeUntilVanish -= seconds;
-            if (timeUntilVanish <= 0)
-                scene.RemoveSprite(this);
+            sprite.position += speed * seconds;
+            distanceUntilVanish -= speed.Length() * seconds;
+            if (distanceUntilVanish <= 0)
+                scene.RemoveSceneObject(this);
+        }
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            sprite.Draw(spriteBatch);
         }
     }
 }

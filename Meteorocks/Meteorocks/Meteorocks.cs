@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Icone2DLibrary;
+using Icone2DLibrary.SceneManagement;
 
 namespace Meteorocks
 {
