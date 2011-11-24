@@ -2,68 +2,47 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Icone2DLibrary;
 using Icone2DLibrary.SceneManagement;
 using Icone2DLibrary.Objects.SpriteStruct;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Icone2DLibrary.Objects
 {
-    public class Ship : ISceneObject
+    public class Meteor : ISceneObject
     {
         public void Initialize(Scene scene)
         {
             this.scene = scene;
             game = scene.Game;
-            sprite.texture = game.Content.Load<Texture2D>(@"Sprites/shipSprite");
-            sprite.position = new Vector2(game.GraphicsDevice.Viewport.Width / 2, game.GraphicsDevice.Viewport.Height / 2);
+            sprite.texture = game.Content.Load<Texture2D>(@"Sprites/Meteor");
+            Random random = new Random(DateTime.Now.Millisecond);
+            Viewport viewport = game.GraphicsDevice.Viewport;
+            sprite.position = new Vector2(random.Next(viewport.Width, viewport.Height));
+            speed = new Vector2(random.Next(viewport.Width, viewport.Height));
+            angularSpeed = (float)random.NextDouble() * 100;
 
-            sprite.scale = 0.7f;
+            sprite.scale = 1;
 
             sprite.rotation = 0;
             sprite.origin = new Vector2(sprite.texture.Width / 2, sprite.texture.Height / 2);
         }
 
+        Sprite sprite = new Sprite();
         Scene scene;
         Game game;
-        const float acceleration = 250.0f;
-        const float maximumSpeed = 250.0f;
-        float timeUntilNextShot = 0.0f;
-        Vector2 speed = Vector2.Zero;
-        KeyboardState keyState;
-        Sprite sprite = new Sprite();
+        Vector2 speed;
+        float angularSpeed;
 
         public void Update(float seconds)
         {
-            if (timeUntilNextShot > 0)
-                timeUntilNextShot -= seconds;
             Viewport viewport = game.GraphicsDevice.Viewport;
-            if (keyState.IsKeyDown(Keys.Right))
-                rotation += 5 * seconds;
-            if (keyState.IsKeyDown(Keys.Left))
-                rotation -= 5 * seconds;
 
-            if (keyState.IsKeyDown(Keys.Up))
-            {
-                speed.X += acceleration * seconds * (float)Math.Sin(sprite.rotation);
-                speed.Y -= acceleration * seconds * (float)Math.Cos(sprite.rotation);
-            }
-            if (keyState.IsKeyDown(Keys.Down))
-            {
-                speed.X -= acceleration * seconds * (float)Math.Sin(sprite.rotation);
-                speed.Y += acceleration * seconds * (float)Math.Cos(sprite.rotation);
-            }
+            sprite.rotation += seconds * angularSpeed;
+            sprite.rotation = MathHelper.WrapAngle(sprite.rotation);
 
-            if (speed.LengthSquared() > maximumSpeed * maximumSpeed)
-            {
-                speed.Normalize();
-                speed *= maximumSpeed;
-            }
+            sprite.position += speed;
 
-
-            position += speed * seconds;
             if (position.X > viewport.Width)
                 sprite.position.X -= viewport.Width;
             if (position.X < 0)
@@ -73,12 +52,6 @@ namespace Icone2DLibrary.Objects
                 sprite.position.Y -= viewport.Height;
             if (position.Y < 0)
                 sprite.position.Y += viewport.Height;
-
-            if (timeUntilNextShot <= 0 && keyState.IsKeyDown(Keys.Space))
-            {
-                scene.AddBullet(rotation, position, speed);
-                timeUntilNextShot = 0.5f;
-            }
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -114,15 +87,14 @@ namespace Icone2DLibrary.Objects
                     Color.White, rotation, origin, scale, SpriteEffects.None, 0f);
         }
 
-        public KeyboardState KeyState
-        {
-            set { keyState = value; }
-        }
-
         Vector2 position
         {
             get { return sprite.position; }
-            set { sprite.position = value; }
+            set
+            {
+                sprite.position = value;
+
+            }
         }
 
         float scale

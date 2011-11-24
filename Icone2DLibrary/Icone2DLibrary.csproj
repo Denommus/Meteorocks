@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Objects\Bullet.cs" />
+    <Compile Include="Objects\Meteor.cs" />
     <Compile Include="Objects\Ship.cs" />
     <Compile Include="Objects\SpriteStruct\Sprite.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
