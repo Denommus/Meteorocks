@@ -21,6 +21,7 @@ namespace Icone2DLibrary.Objects
             sprite.position = new Vector2(game.GraphicsDevice.Viewport.Width / 2, game.GraphicsDevice.Viewport.Height / 2);
 
             sprite.scale = 0.7f;
+            sprite.depth = 0;
 
             sprite.rotation = 0;
             sprite.origin = new Vector2(sprite.texture.Width / 2, sprite.texture.Height / 2);
@@ -88,30 +89,30 @@ namespace Icone2DLibrary.Objects
 
             if (position.X > (viewport.Width - (scale * texture.Width)))
                 spriteBatch.Draw(texture, position - new Vector2(viewport.Width, 0), new Rectangle(0, 0, texture.Width, texture.Height),
-                    Color.White, rotation, origin, scale, SpriteEffects.None, 0f);
+                    Color.White, rotation, origin, scale, SpriteEffects.None, sprite.depth);
             if (position.X < (scale * texture.Width))
                 spriteBatch.Draw(texture, position + new Vector2(viewport.Width, 0), new Rectangle(0, 0, texture.Width, texture.Height),
-                    Color.White, rotation, origin, scale, SpriteEffects.None, 0f);
+                    Color.White, rotation, origin, scale, SpriteEffects.None, sprite.depth);
 
             if (position.Y > (viewport.Height - (scale * texture.Height)))
                 spriteBatch.Draw(texture, position - new Vector2(0, viewport.Height), new Rectangle(0, 0, texture.Width, texture.Height),
-                    Color.White, rotation, origin, scale, SpriteEffects.None, 0f);
+                    Color.White, rotation, origin, scale, SpriteEffects.None, sprite.depth);
             if (position.Y < (scale * texture.Height))
                 spriteBatch.Draw(texture, position + new Vector2(0, viewport.Height), new Rectangle(0, 0, texture.Width, texture.Height),
-                    Color.White, rotation, origin, scale, SpriteEffects.None, 0f);
+                    Color.White, rotation, origin, scale, SpriteEffects.None, sprite.depth);
 
             if (position.X > (viewport.Width - (scale * texture.Width)) && position.Y > (viewport.Height - (scale * texture.Height)))
                 spriteBatch.Draw(texture, position - new Vector2(viewport.Width, viewport.Height), new Rectangle(0, 0, texture.Width, texture.Height),
-                    Color.White, rotation, origin, scale, SpriteEffects.None, 0f);
+                    Color.White, rotation, origin, scale, SpriteEffects.None, sprite.depth);
             if (position.X > (viewport.Width - (scale * texture.Width)) && position.Y < (scale * texture.Height))
                 spriteBatch.Draw(texture, position - new Vector2(viewport.Width, -viewport.Height), new Rectangle(0, 0, texture.Width, texture.Height),
-                    Color.White, rotation, origin, scale, SpriteEffects.None, 0f);
+                    Color.White, rotation, origin, scale, SpriteEffects.None, sprite.depth);
             if (position.X < (scale * texture.Width) && position.Y > (viewport.Height - (scale * texture.Height)))
                 spriteBatch.Draw(texture, position - new Vector2(-viewport.Width, viewport.Height), new Rectangle(0, 0, texture.Width, texture.Height),
-                    Color.White, rotation, origin, scale, SpriteEffects.None, 0f);
+                    Color.White, rotation, origin, scale, SpriteEffects.None, sprite.depth);
             if (position.X < (scale * texture.Width) && position.Y < (scale * texture.Height))
                 spriteBatch.Draw(texture, position - new Vector2(-viewport.Width, -viewport.Height), new Rectangle(0, 0, texture.Width, texture.Height),
-                    Color.White, rotation, origin, scale, SpriteEffects.None, 0f);
+                    Color.White, rotation, origin, scale, SpriteEffects.None, sprite.depth);
         }
 
         public KeyboardState KeyState

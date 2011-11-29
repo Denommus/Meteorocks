@@ -28,6 +28,7 @@ namespace Icone2DLibrary.SceneManagement
         List<ISceneObject> sprites = new List<ISceneObject>();
         Ship player;
         SpriteBatch spriteBatch;
+        float secondsToNextMeteor = 0;
 
         /// <summary>
         /// Allows the game component to perform any initialization it needs to before starting
@@ -48,6 +49,14 @@ namespace Icone2DLibrary.SceneManagement
         {
             float seconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
             KeyboardState keyState = Keyboard.GetState();
+
+            secondsToNextMeteor -= seconds;
+            if (secondsToNextMeteor <= 0)
+            {
+                secondsToNextMeteor = 10;
+                AddSceneObject<Meteor>();
+            }
+
             player.KeyState = keyState;
 
             player.Update(seconds);
@@ -64,7 +73,7 @@ namespace Icone2DLibrary.SceneManagement
 
         public override void Draw(GameTime gameTime)
         {
-            spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
+            spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend);
             player.Draw(spriteBatch);
             foreach (ISceneObject s in sprites)
             {

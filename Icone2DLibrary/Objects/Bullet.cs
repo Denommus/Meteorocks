@@ -18,6 +18,7 @@ namespace Icone2DLibrary.Objects
             game = scene.Game;
             sprite.texture = game.Content.Load<Texture2D>(@"Sprites/Fireball");
             sprite.scale = 0.2f;
+            sprite.depth = 0;
             sprite.origin = new Vector2(sprite.texture.Width / 2, sprite.texture.Height / 2);
         }
 

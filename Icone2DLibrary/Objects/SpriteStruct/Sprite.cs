@@ -14,12 +14,13 @@ namespace Icone2DLibrary.Objects.SpriteStruct
         public float scale;
         public Vector2 position;
         public Vector2 origin;
+        public float depth;
 
 
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(texture, position, new Rectangle(0, 0, texture.Width, texture.Height),
-                Color.White, rotation, origin, scale, SpriteEffects.None, 0f);
+                Color.White, rotation, origin, scale, SpriteEffects.None, depth);
         }
     }
 }
