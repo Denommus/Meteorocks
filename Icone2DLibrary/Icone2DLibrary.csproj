@@ -63,6 +63,7 @@
     <Compile Include="Objects\Meteor.cs" />
     <Compile Include="Objects\Ship.cs" />
     <Compile Include="Objects\SpriteStruct\Sprite.cs" />
+    <Compile Include="Physics\Circle.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SceneManagement\ISceneObject.cs" />
     <Compile Include="SceneManagement\Scene.cs" />

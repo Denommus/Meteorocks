@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Icone2DLibrary;
 using Icone2DLibrary.SceneManagement;
 using Icone2DLibrary.Objects.SpriteStruct;
+using Icone2DLibrary.Physics;
 
 namespace Icone2DLibrary.Objects
 {
@@ -25,6 +22,7 @@ namespace Icone2DLibrary.Objects
 
             sprite.rotation = 0;
             sprite.origin = new Vector2(sprite.texture.Width / 2, sprite.texture.Height / 2);
+            circle.radius = sprite.origin.X > sprite.origin.Y ? sprite.origin.X : sprite.origin.Y;
         }
 
         Scene scene;
@@ -35,6 +33,7 @@ namespace Icone2DLibrary.Objects
         Vector2 speed = Vector2.Zero;
         KeyboardState keyState;
         Sprite sprite = new Sprite();
+        Circle circle;
 
         public void Update(float seconds)
         {
@@ -80,6 +79,8 @@ namespace Icone2DLibrary.Objects
                 scene.AddBullet(rotation, position, speed);
                 timeUntilNextShot = 0.5f;
             }
+
+            circle.position = sprite.position;
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -113,6 +114,10 @@ namespace Icone2DLibrary.Objects
             if (position.X < (scale * texture.Width) && position.Y < (scale * texture.Height))
                 spriteBatch.Draw(texture, position - new Vector2(-viewport.Width, -viewport.Height), new Rectangle(0, 0, texture.Width, texture.Height),
                     Color.White, rotation, origin, scale, SpriteEffects.None, sprite.depth);
+        }
+
+        public void Collide(ISceneObject obj)
+        {
         }
 
         public KeyboardState KeyState
@@ -153,5 +158,7 @@ namespace Icone2DLibrary.Objects
             get { return sprite.origin; }
             set { sprite.origin = value; }
         }
+
+        public Circle Circle { get { return circle; } }
     }
 }

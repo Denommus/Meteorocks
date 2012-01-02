@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
+using Icone2DLibrary.Physics;
 
 namespace Icone2DLibrary.SceneManagement
 {
@@ -11,5 +12,7 @@ namespace Icone2DLibrary.SceneManagement
         void Initialize(Scene scene);
         void Update(float seconds);
         void Draw(SpriteBatch spriteBatch);
+        void Collide(ISceneObject obj);
+        Circle Circle { get; }
     }
 }

@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework;
-using Icone2DLibrary;
 using Microsoft.Xna.Framework.Graphics;
 using Icone2DLibrary.SceneManagement;
 using Icone2DLibrary.Objects.SpriteStruct;
+using Icone2DLibrary.Physics;
 
 namespace Icone2DLibrary.Objects
 {
@@ -20,6 +17,7 @@ namespace Icone2DLibrary.Objects
             sprite.scale = 0.2f;
             sprite.depth = 0;
             sprite.origin = new Vector2(sprite.texture.Width / 2, sprite.texture.Height / 2);
+            circle.radius = sprite.origin.X > sprite.origin.Y ? sprite.origin.X : sprite.origin.Y;
         }
 
 
@@ -28,6 +26,7 @@ namespace Icone2DLibrary.Objects
         Vector2 speed;
         float distanceUntilVanish = 200;
         Sprite sprite = new Sprite();
+        Circle circle;
 
         public void SetInitialParams(float rotation, Vector2 position, Vector2 shipSpeed)
         {
@@ -40,14 +39,22 @@ namespace Icone2DLibrary.Objects
         public void Update(float seconds)
         {
             sprite.position += speed * seconds;
+            
             distanceUntilVanish -= speed.Length() * seconds;
             if (distanceUntilVanish <= 0)
                 scene.RemoveSceneObject(this);
+            circle.position = sprite.position;
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
             sprite.Draw(spriteBatch);
         }
+
+        public void Collide(ISceneObject obj)
+        {
+        }
+
+        public Circle Circle { get { return circle; } }
     }
 }

@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Icone2DLibrary.SceneManagement;
 using Icone2DLibrary.Objects.SpriteStruct;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Icone2DLibrary.Physics;
 
 namespace Icone2DLibrary.Objects
 {
@@ -27,6 +25,7 @@ namespace Icone2DLibrary.Objects
 
             sprite.rotation = 0;
             sprite.origin = new Vector2(sprite.texture.Width / 2, sprite.texture.Height / 2);
+            circle.radius = sprite.origin.X > sprite.origin.Y ? sprite.origin.X : sprite.origin.Y;
         }
 
         Sprite sprite = new Sprite();
@@ -34,6 +33,7 @@ namespace Icone2DLibrary.Objects
         Game game;
         Vector2 speed;
         float angularSpeed;
+        Circle circle;
 
         public void Update(float seconds)
         {
@@ -53,6 +53,7 @@ namespace Icone2DLibrary.Objects
                 sprite.position.Y -= viewport.Height;
             if (position.Y < 0)
                 sprite.position.Y += viewport.Height;
+            circle.position = position;
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -86,6 +87,10 @@ namespace Icone2DLibrary.Objects
             if (position.X < (scale * texture.Width) && position.Y < (scale * texture.Height))
                 spriteBatch.Draw(texture, position - new Vector2(-viewport.Width, -viewport.Height), new Rectangle(0, 0, texture.Width, texture.Height),
                     Color.White, rotation, origin, scale, SpriteEffects.None, sprite.depth);
+        }
+
+        public void Collide(ISceneObject obj)
+        {
         }
 
         Vector2 position
@@ -125,5 +130,7 @@ namespace Icone2DLibrary.Objects
             get { return sprite.origin; }
             set { sprite.origin = value; }
         }
+
+        public Circle Circle { get { return circle; } }
     }
 }
