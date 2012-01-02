@@ -22,7 +22,7 @@ namespace Icone2DLibrary.Objects
             speed = new Vector2(random.Next(200) - 100, random.Next(200) - 100);
             angularSpeed = ((float)random.NextDouble() * 10) - 5;
 
-            sprite.scale = 1;
+            sprite.scale = 1.0f;
             sprite.depth = 1;
 
             sprite.rotation = 0;
