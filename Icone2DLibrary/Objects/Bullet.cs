@@ -17,14 +17,15 @@ namespace Icone2DLibrary.Objects
             sprite.scale = 0.2f;
             sprite.depth = 0;
             sprite.origin = new Vector2(sprite.texture.Width / 2, sprite.texture.Height / 2);
-            circle.radius = sprite.origin.X > sprite.origin.Y ? sprite.origin.X : sprite.origin.Y;
+            circle.radius = sprite.origin.X < sprite.origin.Y ? sprite.origin.X : sprite.origin.Y;
+            circle.radius *= sprite.scale;
         }
 
 
         Scene scene;
         Game game;
         Vector2 speed;
-        float distanceUntilVanish = 200;
+        float distanceUntilVanish = 500;
         Sprite sprite = new Sprite();
         Circle circle;
 

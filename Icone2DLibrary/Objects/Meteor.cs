@@ -25,7 +25,9 @@ namespace Icone2DLibrary.Objects
 
             sprite.rotation = 0;
             sprite.origin = new Vector2(sprite.texture.Width / 2, sprite.texture.Height / 2);
-            circle.radius = sprite.origin.X > sprite.origin.Y ? sprite.origin.X : sprite.origin.Y;
+            circle.radius = sprite.origin.X < sprite.origin.Y ? sprite.origin.X : sprite.origin.Y;
+            circle.radius -= 2;
+            circle.radius *= sprite.scale;
         }
 
         Sprite sprite = new Sprite();
