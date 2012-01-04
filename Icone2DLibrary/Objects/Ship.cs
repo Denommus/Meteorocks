@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Input;
 using Icone2DLibrary.SceneManagement;
 using Icone2DLibrary.Objects.SpriteStruct;
 using Icone2DLibrary.Physics;
+using System.Collections.Generic;
 
 namespace Icone2DLibrary.Objects
 {
@@ -23,6 +24,12 @@ namespace Icone2DLibrary.Objects
             sprite.rotation = 0;
             sprite.origin = new Vector2(sprite.texture.Width / 2, sprite.texture.Height / 2);
             circle.radius = sprite.origin.X > sprite.origin.Y ? sprite.origin.X : sprite.origin.Y;
+
+            //Animation reel for the ship's rockets
+            spriteReel = new List<Texture2D>();
+            spriteReel.Add(game.Content.Load<Texture2D>(@"Sprites/shipSpriteRocket1"));
+            spriteReel.Add(game.Content.Load<Texture2D>(@"Sprites/shipSpriteRocket2"));
+            spriteReel.Add(game.Content.Load<Texture2D>(@"Sprites/shipSpriteRocket3"));
         }
 
         Scene scene;
@@ -34,6 +41,9 @@ namespace Icone2DLibrary.Objects
         KeyboardState keyState;
         Sprite sprite = new Sprite();
         Circle circle;
+        List<Texture2D> spriteReel;
+        
+       
 
         public void Update(float seconds)
         {
@@ -49,7 +59,17 @@ namespace Icone2DLibrary.Objects
             {
                 speed.X += acceleration * seconds * (float)Math.Sin(sprite.rotation);
                 speed.Y -= acceleration * seconds * (float)Math.Cos(sprite.rotation);
+                
+                //Animate the ship's rockets while up is being pressed
+                sprite.Animate(spriteReel, seconds, 0.3f);
             }
+            
+            //if the player is not holding up, reset the texture to the default shipSprite
+            else
+            {
+                sprite.texture = game.Content.Load<Texture2D>(@"Sprites/shipSprite");
+            }
+
             if (keyState.IsKeyDown(Keys.Down))
             {
                 speed.X -= acceleration * seconds * (float)Math.Sin(sprite.rotation);
@@ -114,6 +134,11 @@ namespace Icone2DLibrary.Objects
             if (position.X < (scale * texture.Width) && position.Y < (scale * texture.Height))
                 spriteBatch.Draw(texture, position - new Vector2(-viewport.Width, -viewport.Height), new Rectangle(0, 0, texture.Width, texture.Height),
                     Color.White, rotation, origin, scale, SpriteEffects.None, sprite.depth);
+        }
+
+        public void Animate()
+        {
+
         }
 
         public void Collide(ISceneObject obj)
