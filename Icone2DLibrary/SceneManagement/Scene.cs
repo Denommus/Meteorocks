@@ -61,11 +61,20 @@ namespace Icone2DLibrary.SceneManagement
 
             player.Update(seconds);
 
-            for(int i=0;i<sprites.Count;i++)
+            for (int i = 0; i < sprites.Count; i++)
             {
-                ISceneObject s = sprites[i];
-                if (s != null)
-                    s.Update(seconds);
+                ISceneObject s1 = sprites[i];
+                if (s1 != null)
+                {
+                    s1.Update(seconds);
+                    Collide((ISceneObject)player, s1);
+                    for (int j = i; j < sprites.Count; j++)
+                    {
+                        ISceneObject s2 = sprites[j];
+                        if (s2 != null)
+                            Collide(s1, s2);
+                    }
+                }
             }
 
             base.Update(gameTime);
@@ -108,6 +117,27 @@ namespace Icone2DLibrary.SceneManagement
         public void RemoveSceneObject(ISceneObject sceneObject)
         {
             sprites.Remove(sceneObject);
+        }
+
+        private void Collide(ISceneObject s1, ISceneObject s2)
+        {
+            //TODO: Destroyed meteor must generate tiny meteors
+            if (s1.GetType() == typeof(Bullet) && s2.GetType() == typeof(Meteor))
+            {
+                if (s1.Circle.Contains(s2.Circle))
+                {
+                    RemoveSceneObject(s1);
+                    RemoveSceneObject(s2);
+                }
+            }
+            else if (s1.GetType() == typeof(Meteor) && s2.GetType() == typeof(Bullet))
+            {
+                if (s1.Circle.Contains(s2.Circle))
+                {
+                    RemoveSceneObject(s1);
+                    RemoveSceneObject(s2);
+                }
+            }
         }
     }
 }

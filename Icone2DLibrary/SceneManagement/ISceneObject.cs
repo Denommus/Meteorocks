@@ -12,7 +12,6 @@ namespace Icone2DLibrary.SceneManagement
         void Initialize(Scene scene);
         void Update(float seconds);
         void Draw(SpriteBatch spriteBatch);
-        void Collide(ISceneObject obj);
         Circle Circle { get; }
     }
 }

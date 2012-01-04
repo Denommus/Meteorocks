@@ -89,10 +89,6 @@ namespace Icone2DLibrary.Objects
                     Color.White, rotation, origin, scale, SpriteEffects.None, sprite.depth);
         }
 
-        public void Collide(ISceneObject obj)
-        {
-        }
-
         Vector2 position
         {
             get { return sprite.position; }

@@ -51,10 +51,6 @@ namespace Icone2DLibrary.Objects
             sprite.Draw(spriteBatch);
         }
 
-        public void Collide(ISceneObject obj)
-        {
-        }
-
         public Circle Circle { get { return circle; } }
     }
 }

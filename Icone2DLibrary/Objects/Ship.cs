@@ -141,10 +141,6 @@ namespace Icone2DLibrary.Objects
 
         }
 
-        public void Collide(ISceneObject obj)
-        {
-        }
-
         public KeyboardState KeyState
         {
             set { keyState = value; }

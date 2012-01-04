@@ -27,14 +27,7 @@ namespace Icone2DLibrary.Objects.SpriteStruct
         public void Animate(List<Texture2D> textures, float time, float animationRate)
         {
             //Keep track of the elapsed time 
-            if (animationTime == null)
-            {
-                animationTime = time;
-            }
-            else
-            {
-                animationTime += time;
-            }
+            animationTime += time;
 
             //The given animation rate determines when we switch to the next texture in the list
             if (animationTime > animationRate / textures.Count)
