@@ -23,7 +23,8 @@ namespace Icone2DLibrary.Objects
 
             sprite.rotation = 0;
             sprite.origin = new Vector2(sprite.texture.Width / 2, sprite.texture.Height / 2);
-            circle.radius = sprite.origin.X > sprite.origin.Y ? sprite.origin.X : sprite.origin.Y;
+            circle.radius = sprite.origin.X < sprite.origin.Y ? sprite.origin.X : sprite.origin.Y;
+            circle.radius *= sprite.scale;
 
             //Animation reel for the ship's rockets
             spriteReel = new List<Texture2D>();

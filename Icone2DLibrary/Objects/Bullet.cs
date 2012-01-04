@@ -25,7 +25,7 @@ namespace Icone2DLibrary.Objects
         Scene scene;
         Game game;
         Vector2 speed;
-        float distanceUntilVanish = 500;
+        float distanceUntilVanish = 250;
         Sprite sprite = new Sprite();
         Circle circle;
 

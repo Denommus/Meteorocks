@@ -138,6 +138,10 @@ namespace Icone2DLibrary.SceneManagement
                     RemoveSceneObject(s2);
                 }
             }
+
+            if ((s1.GetType() == typeof(Ship) && s2.GetType() == typeof(Meteor)) || (s1.GetType() == typeof(Meteor) && s2.GetType() == typeof(Ship)))
+                if (s1.Circle.Contains(s2.Circle))
+                    Game.Exit();
         }
     }
 }
