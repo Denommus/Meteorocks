@@ -9,7 +9,7 @@ namespace Icone2DLibrary.Objects
 {
     class Bullet : ISceneObject
     {
-        public void Initialize(Scene scene)
+        public void Initialize(Scene scene, Random random)
         {
             this.scene = scene;
             game = scene.Game;

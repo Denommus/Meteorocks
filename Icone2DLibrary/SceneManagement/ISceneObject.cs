@@ -9,7 +9,7 @@ namespace Icone2DLibrary.SceneManagement
 {
     public interface ISceneObject
     {
-        void Initialize(Scene scene);
+        void Initialize(Scene scene, Random random);
         void Update(float seconds);
         void Draw(SpriteBatch spriteBatch);
         Circle Circle { get; }

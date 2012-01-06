@@ -9,12 +9,11 @@ namespace Icone2DLibrary.Objects
 {
     public class Meteor : ISceneObject
     {
-        public void Initialize(Scene scene)
+        public void Initialize(Scene scene, Random random)
         {
             this.scene = scene;
             game = scene.Game;
             sprite.texture = game.Content.Load<Texture2D>(@"Sprites/Meteor");
-            Random random = new Random(DateTime.Now.Millisecond);
             Viewport viewport = game.GraphicsDevice.Viewport;
             sprite.position = new Vector2(random.Next(viewport.Width), random.Next(viewport.Height));
             speed = new Vector2(random.Next(200) - 100, random.Next(200) - 100);

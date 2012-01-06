@@ -22,13 +22,17 @@ namespace Icone2DLibrary.SceneManagement
             : base(game)
         {
             spriteBatch = new SpriteBatch(game.GraphicsDevice);
+            random = new Random(DateTime.Now.Millisecond);
             player = InitializeShip();
+            AddSceneObject<Meteor>();
+            AddSceneObject<Meteor>();
+            AddSceneObject<Meteor>();
         }
 
         List<ISceneObject> sprites = new List<ISceneObject>();
         Ship player;
         SpriteBatch spriteBatch;
-        float secondsToNextMeteor = 0;
+        Random random;
 
         /// <summary>
         /// Allows the game component to perform any initialization it needs to before starting
@@ -49,13 +53,6 @@ namespace Icone2DLibrary.SceneManagement
         {
             float seconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
             KeyboardState keyState = Keyboard.GetState();
-
-            secondsToNextMeteor -= seconds;
-            if (secondsToNextMeteor <= 0)
-            {
-                secondsToNextMeteor = 10;
-                AddSceneObject<Meteor>();
-            }
 
             player.KeyState = keyState;
 
@@ -95,14 +92,14 @@ namespace Icone2DLibrary.SceneManagement
         public void AddSceneObject<T>() where T : ISceneObject, new()
         {
             ISceneObject t = new T();
-            t.Initialize(this);
+            t.Initialize(this, random);
             sprites.Add(t);
         }
 
         public void AddBullet(float rotation, Vector2 shipPosition, Vector2 shipSpeed)
         {
             Bullet bullet = new Bullet();
-            bullet.Initialize(this);
+            bullet.Initialize(this, random);
             bullet.SetInitialParams(rotation, shipPosition, shipSpeed);
             sprites.Add(bullet);
         }
@@ -110,7 +107,7 @@ namespace Icone2DLibrary.SceneManagement
         public Ship InitializeShip()
         {
             Ship ship = new Ship();
-            ship.Initialize(this);
+            ship.Initialize(this, random);
             return ship;
         }
 
