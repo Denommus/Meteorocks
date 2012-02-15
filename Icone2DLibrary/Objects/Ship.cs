@@ -22,6 +22,7 @@ namespace Icone2DLibrary.Objects
         Sprite sprite = new Sprite();
         Circle circle;
         List<Texture2D> spriteReel;
+        int lives = 3;
         #endregion
 
         #region Methods
@@ -31,21 +32,28 @@ namespace Icone2DLibrary.Objects
             this.scene = scene;
             game = scene.Game;
             sprite.texture = game.Content.Load<Texture2D>(@"Sprites/shipSprite");
-            sprite.position = new Vector2(game.GraphicsDevice.Viewport.Width / 2, game.GraphicsDevice.Viewport.Height / 2);
 
             sprite.scale = 0.7f;
             sprite.depth = 0;
 
-            sprite.rotation = 0;
             sprite.origin = new Vector2(sprite.texture.Width / 2, sprite.texture.Height / 2);
             circle.radius = sprite.origin.X < sprite.origin.Y ? sprite.origin.X : sprite.origin.Y;
             circle.radius *= sprite.scale;
+
+            ResetPositions();
 
             //Animation reel for the ship's rockets
             spriteReel = new List<Texture2D>();
             spriteReel.Add(game.Content.Load<Texture2D>(@"Sprites/shipSpriteRocket1"));
             spriteReel.Add(game.Content.Load<Texture2D>(@"Sprites/shipSpriteRocket2"));
             spriteReel.Add(game.Content.Load<Texture2D>(@"Sprites/shipSpriteRocket3"));
+        }
+
+        private void ResetPositions()
+        {
+            sprite.position = new Vector2(game.GraphicsDevice.Viewport.Width / 2, game.GraphicsDevice.Viewport.Height / 2);
+            sprite.rotation = 0;
+            speed = Vector2.Zero;
         }
         #endregion
 
@@ -141,6 +149,14 @@ namespace Icone2DLibrary.Objects
                     Color.White, rotation, origin, scale, SpriteEffects.None, sprite.depth);
         }
         #endregion
+
+        public void Die()
+        {
+            lives--;
+            ResetPositions();
+            if (lives < 0)
+                game.Exit();
+        }
         #endregion
 
         #region Properties
