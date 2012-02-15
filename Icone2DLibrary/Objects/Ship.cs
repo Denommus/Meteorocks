@@ -11,6 +11,21 @@ namespace Icone2DLibrary.Objects
 {
     public class Ship : ISceneObject
     {
+        #region Attributes
+        Scene scene;
+        Game game;
+        const float acceleration = 250.0f;
+        const float maximumSpeed = 250.0f;
+        float timeUntilNextShot = 0.0f;
+        Vector2 speed = Vector2.Zero;
+        KeyboardState keyState;
+        Sprite sprite = new Sprite();
+        Circle circle;
+        List<Texture2D> spriteReel;
+        #endregion
+
+        #region Methods
+        #region Initialization
         public void Initialize(Scene scene, Random random)
         {
             this.scene = scene;
@@ -32,20 +47,9 @@ namespace Icone2DLibrary.Objects
             spriteReel.Add(game.Content.Load<Texture2D>(@"Sprites/shipSpriteRocket2"));
             spriteReel.Add(game.Content.Load<Texture2D>(@"Sprites/shipSpriteRocket3"));
         }
+        #endregion
 
-        Scene scene;
-        Game game;
-        const float acceleration = 250.0f;
-        const float maximumSpeed = 250.0f;
-        float timeUntilNextShot = 0.0f;
-        Vector2 speed = Vector2.Zero;
-        KeyboardState keyState;
-        Sprite sprite = new Sprite();
-        Circle circle;
-        List<Texture2D> spriteReel;
-        
-       
-
+        #region Update and Draw
         public void Update(float seconds)
         {
             if (timeUntilNextShot > 0)
@@ -136,12 +140,10 @@ namespace Icone2DLibrary.Objects
                 spriteBatch.Draw(texture, position - new Vector2(-viewport.Width, -viewport.Height), new Rectangle(0, 0, texture.Width, texture.Height),
                     Color.White, rotation, origin, scale, SpriteEffects.None, sprite.depth);
         }
+        #endregion
+        #endregion
 
-        public void Animate()
-        {
-
-        }
-
+        #region Properties
         public KeyboardState KeyState
         {
             set { keyState = value; }
@@ -182,5 +184,6 @@ namespace Icone2DLibrary.Objects
         }
 
         public Circle Circle { get { return circle; } }
+        #endregion
     }
 }
