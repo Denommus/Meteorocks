@@ -18,6 +18,7 @@ namespace Icone2DLibrary.Objects
         const float maximumSpeed = 250.0f;
         float timeUntilNextShot = 0.0f;
         float immunityTime = 2.0f;
+        bool blinkControl = true;
         Vector2 speed = Vector2.Zero;
         KeyboardState keyState;
         Sprite sprite = new Sprite();
@@ -123,36 +124,42 @@ namespace Icone2DLibrary.Objects
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            Viewport viewport = game.GraphicsDevice.Viewport;
-            DrawLives(spriteBatch, viewport);
-            sprite.Draw(spriteBatch);
+            if ((blinkControl && immunityTime > 0) || immunityTime <= 0)
+            {
+                Viewport viewport = game.GraphicsDevice.Viewport;
+                DrawLives(spriteBatch, viewport);
+                sprite.Draw(spriteBatch);
 
-            if (position.X > (viewport.Width - (scale * texture.Width)))
-                spriteBatch.Draw(texture, position - new Vector2(viewport.Width, 0), new Rectangle(0, 0, texture.Width, texture.Height),
-                    Color.White, rotation, origin, scale, SpriteEffects.None, sprite.depth);
-            if (position.X < (scale * texture.Width))
-                spriteBatch.Draw(texture, position + new Vector2(viewport.Width, 0), new Rectangle(0, 0, texture.Width, texture.Height),
-                    Color.White, rotation, origin, scale, SpriteEffects.None, sprite.depth);
+                if (position.X > (viewport.Width - (scale * texture.Width)))
+                    spriteBatch.Draw(texture, position - new Vector2(viewport.Width, 0), new Rectangle(0, 0, texture.Width, texture.Height),
+                        Color.White, rotation, origin, scale, SpriteEffects.None, sprite.depth);
+                if (position.X < (scale * texture.Width))
+                    spriteBatch.Draw(texture, position + new Vector2(viewport.Width, 0), new Rectangle(0, 0, texture.Width, texture.Height),
+                        Color.White, rotation, origin, scale, SpriteEffects.None, sprite.depth);
 
-            if (position.Y > (viewport.Height - (scale * texture.Height)))
-                spriteBatch.Draw(texture, position - new Vector2(0, viewport.Height), new Rectangle(0, 0, texture.Width, texture.Height),
-                    Color.White, rotation, origin, scale, SpriteEffects.None, sprite.depth);
-            if (position.Y < (scale * texture.Height))
-                spriteBatch.Draw(texture, position + new Vector2(0, viewport.Height), new Rectangle(0, 0, texture.Width, texture.Height),
-                    Color.White, rotation, origin, scale, SpriteEffects.None, sprite.depth);
+                if (position.Y > (viewport.Height - (scale * texture.Height)))
+                    spriteBatch.Draw(texture, position - new Vector2(0, viewport.Height), new Rectangle(0, 0, texture.Width, texture.Height),
+                        Color.White, rotation, origin, scale, SpriteEffects.None, sprite.depth);
+                if (position.Y < (scale * texture.Height))
+                    spriteBatch.Draw(texture, position + new Vector2(0, viewport.Height), new Rectangle(0, 0, texture.Width, texture.Height),
+                        Color.White, rotation, origin, scale, SpriteEffects.None, sprite.depth);
 
-            if (position.X > (viewport.Width - (scale * texture.Width)) && position.Y > (viewport.Height - (scale * texture.Height)))
-                spriteBatch.Draw(texture, position - new Vector2(viewport.Width, viewport.Height), new Rectangle(0, 0, texture.Width, texture.Height),
-                    Color.White, rotation, origin, scale, SpriteEffects.None, sprite.depth);
-            if (position.X > (viewport.Width - (scale * texture.Width)) && position.Y < (scale * texture.Height))
-                spriteBatch.Draw(texture, position - new Vector2(viewport.Width, -viewport.Height), new Rectangle(0, 0, texture.Width, texture.Height),
-                    Color.White, rotation, origin, scale, SpriteEffects.None, sprite.depth);
-            if (position.X < (scale * texture.Width) && position.Y > (viewport.Height - (scale * texture.Height)))
-                spriteBatch.Draw(texture, position - new Vector2(-viewport.Width, viewport.Height), new Rectangle(0, 0, texture.Width, texture.Height),
-                    Color.White, rotation, origin, scale, SpriteEffects.None, sprite.depth);
-            if (position.X < (scale * texture.Width) && position.Y < (scale * texture.Height))
-                spriteBatch.Draw(texture, position - new Vector2(-viewport.Width, -viewport.Height), new Rectangle(0, 0, texture.Width, texture.Height),
-                    Color.White, rotation, origin, scale, SpriteEffects.None, sprite.depth);
+                if (position.X > (viewport.Width - (scale * texture.Width)) && position.Y > (viewport.Height - (scale * texture.Height)))
+                    spriteBatch.Draw(texture, position - new Vector2(viewport.Width, viewport.Height), new Rectangle(0, 0, texture.Width, texture.Height),
+                        Color.White, rotation, origin, scale, SpriteEffects.None, sprite.depth);
+                if (position.X > (viewport.Width - (scale * texture.Width)) && position.Y < (scale * texture.Height))
+                    spriteBatch.Draw(texture, position - new Vector2(viewport.Width, -viewport.Height), new Rectangle(0, 0, texture.Width, texture.Height),
+                        Color.White, rotation, origin, scale, SpriteEffects.None, sprite.depth);
+                if (position.X < (scale * texture.Width) && position.Y > (viewport.Height - (scale * texture.Height)))
+                    spriteBatch.Draw(texture, position - new Vector2(-viewport.Width, viewport.Height), new Rectangle(0, 0, texture.Width, texture.Height),
+                        Color.White, rotation, origin, scale, SpriteEffects.None, sprite.depth);
+                if (position.X < (scale * texture.Width) && position.Y < (scale * texture.Height))
+                    spriteBatch.Draw(texture, position - new Vector2(-viewport.Width, -viewport.Height), new Rectangle(0, 0, texture.Width, texture.Height),
+                        Color.White, rotation, origin, scale, SpriteEffects.None, sprite.depth);
+                blinkControl = false;
+            }
+            else
+                blinkControl = true;
         }
         #endregion
 
