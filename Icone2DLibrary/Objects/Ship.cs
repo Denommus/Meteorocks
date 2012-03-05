@@ -17,6 +17,7 @@ namespace Icone2DLibrary.Objects
         const float acceleration = 250.0f;
         const float maximumSpeed = 250.0f;
         float timeUntilNextShot = 0.0f;
+        float immunityTime = 2.0f;
         Vector2 speed = Vector2.Zero;
         KeyboardState keyState;
         Sprite sprite = new Sprite();
@@ -60,6 +61,10 @@ namespace Icone2DLibrary.Objects
         #region Update and Draw
         public void Update(float seconds)
         {
+            if (immunityTime > 0)
+                immunityTime -= seconds;
+            else
+                immunityTime = 0;
             if (timeUntilNextShot > 0)
                 timeUntilNextShot -= seconds;
             Viewport viewport = game.GraphicsDevice.Viewport;
@@ -151,12 +156,17 @@ namespace Icone2DLibrary.Objects
         }
         #endregion
 
+        #region Life System
         public void Die()
         {
-            lives--;
-            ResetPositions();
-            if (lives < 0)
-                game.Exit();
+            if (immunityTime <= 0)
+            {
+                lives--;
+                immunityTime = 2.0f;
+                ResetPositions();
+                if (lives < 0)
+                    game.Exit();
+            }
         }
 
         private void DrawLives(SpriteBatch spriteBatch, Viewport viewport)
@@ -165,6 +175,7 @@ namespace Icone2DLibrary.Objects
                 spriteBatch.Draw(texture, new Vector2((i * 30) + 30, 30), new Rectangle(0, 0, texture.Width, texture.Height),
                         Color.White, 0, origin, 0.3f, SpriteEffects.None, sprite.depth);
         }
+        #endregion
         #endregion
 
         #region Properties
