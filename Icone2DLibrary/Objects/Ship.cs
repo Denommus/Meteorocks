@@ -124,10 +124,10 @@ namespace Icone2DLibrary.Objects
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            Viewport viewport = game.GraphicsDevice.Viewport;
+            DrawLives(spriteBatch, viewport);
             if ((blinkControl && immunityTime > 0) || immunityTime <= 0)
             {
-                Viewport viewport = game.GraphicsDevice.Viewport;
-                DrawLives(spriteBatch, viewport);
                 sprite.Draw(spriteBatch);
 
                 if (position.X > (viewport.Width - (scale * texture.Width)))
@@ -179,7 +179,7 @@ namespace Icone2DLibrary.Objects
         private void DrawLives(SpriteBatch spriteBatch, Viewport viewport)
         {
             for (int i = 0; i < lives; i++)
-                spriteBatch.Draw(texture, new Vector2((i * 30) + 30, 30), new Rectangle(0, 0, texture.Width, texture.Height),
+                spriteBatch.Draw(spriteReel[2], new Vector2((i * 30) + 30, 30), new Rectangle(0, 0, texture.Width, texture.Height),
                         Color.White, 0, origin, 0.3f, SpriteEffects.None, sprite.depth);
         }
         #endregion
