@@ -17,11 +17,14 @@ namespace Icone2DLibrary.Objects
         const float acceleration = 250.0f;
         const float maximumSpeed = 250.0f;
         float timeUntilNextShot = 0.0f;
+        float immunityTime = 2.0f;
+        bool blinkControl = true;
         Vector2 speed = Vector2.Zero;
         KeyboardState keyState;
         Sprite sprite = new Sprite();
         Circle circle;
         List<Texture2D> spriteReel;
+        int lives = 3;
         #endregion
 
         #region Methods
@@ -31,15 +34,15 @@ namespace Icone2DLibrary.Objects
             this.scene = scene;
             game = scene.Game;
             sprite.texture = game.Content.Load<Texture2D>(@"Sprites/shipSprite");
-            sprite.position = new Vector2(game.GraphicsDevice.Viewport.Width / 2, game.GraphicsDevice.Viewport.Height / 2);
 
             sprite.scale = 0.7f;
             sprite.depth = 0;
 
-            sprite.rotation = 0;
             sprite.origin = new Vector2(sprite.texture.Width / 2, sprite.texture.Height / 2);
             circle.radius = sprite.origin.X < sprite.origin.Y ? sprite.origin.X : sprite.origin.Y;
             circle.radius *= sprite.scale;
+
+            ResetPositions();
 
             //Animation reel for the ship's rockets
             spriteReel = new List<Texture2D>();
@@ -47,11 +50,22 @@ namespace Icone2DLibrary.Objects
             spriteReel.Add(game.Content.Load<Texture2D>(@"Sprites/shipSpriteRocket2"));
             spriteReel.Add(game.Content.Load<Texture2D>(@"Sprites/shipSpriteRocket3"));
         }
+
+        private void ResetPositions()
+        {
+            sprite.position = new Vector2(game.GraphicsDevice.Viewport.Width / 2, game.GraphicsDevice.Viewport.Height / 2);
+            sprite.rotation = 0;
+            speed = Vector2.Zero;
+        }
         #endregion
 
         #region Update and Draw
         public void Update(float seconds)
         {
+            if (immunityTime > 0)
+                immunityTime -= seconds;
+            else
+                immunityTime = 0;
             if (timeUntilNextShot > 0)
                 timeUntilNextShot -= seconds;
             Viewport viewport = game.GraphicsDevice.Viewport;
@@ -111,34 +125,62 @@ namespace Icone2DLibrary.Objects
         public void Draw(SpriteBatch spriteBatch)
         {
             Viewport viewport = game.GraphicsDevice.Viewport;
-            sprite.Draw(spriteBatch);
+            DrawLives(spriteBatch, viewport);
+            if ((blinkControl && immunityTime > 0) || immunityTime <= 0)
+            {
+                sprite.Draw(spriteBatch);
 
-            if (position.X > (viewport.Width - (scale * texture.Width)))
-                spriteBatch.Draw(texture, position - new Vector2(viewport.Width, 0), new Rectangle(0, 0, texture.Width, texture.Height),
-                    Color.White, rotation, origin, scale, SpriteEffects.None, sprite.depth);
-            if (position.X < (scale * texture.Width))
-                spriteBatch.Draw(texture, position + new Vector2(viewport.Width, 0), new Rectangle(0, 0, texture.Width, texture.Height),
-                    Color.White, rotation, origin, scale, SpriteEffects.None, sprite.depth);
+                if (position.X > (viewport.Width - (scale * texture.Width)))
+                    spriteBatch.Draw(texture, position - new Vector2(viewport.Width, 0), new Rectangle(0, 0, texture.Width, texture.Height),
+                        Color.White, rotation, origin, scale, SpriteEffects.None, sprite.depth);
+                if (position.X < (scale * texture.Width))
+                    spriteBatch.Draw(texture, position + new Vector2(viewport.Width, 0), new Rectangle(0, 0, texture.Width, texture.Height),
+                        Color.White, rotation, origin, scale, SpriteEffects.None, sprite.depth);
 
-            if (position.Y > (viewport.Height - (scale * texture.Height)))
-                spriteBatch.Draw(texture, position - new Vector2(0, viewport.Height), new Rectangle(0, 0, texture.Width, texture.Height),
-                    Color.White, rotation, origin, scale, SpriteEffects.None, sprite.depth);
-            if (position.Y < (scale * texture.Height))
-                spriteBatch.Draw(texture, position + new Vector2(0, viewport.Height), new Rectangle(0, 0, texture.Width, texture.Height),
-                    Color.White, rotation, origin, scale, SpriteEffects.None, sprite.depth);
+                if (position.Y > (viewport.Height - (scale * texture.Height)))
+                    spriteBatch.Draw(texture, position - new Vector2(0, viewport.Height), new Rectangle(0, 0, texture.Width, texture.Height),
+                        Color.White, rotation, origin, scale, SpriteEffects.None, sprite.depth);
+                if (position.Y < (scale * texture.Height))
+                    spriteBatch.Draw(texture, position + new Vector2(0, viewport.Height), new Rectangle(0, 0, texture.Width, texture.Height),
+                        Color.White, rotation, origin, scale, SpriteEffects.None, sprite.depth);
 
-            if (position.X > (viewport.Width - (scale * texture.Width)) && position.Y > (viewport.Height - (scale * texture.Height)))
-                spriteBatch.Draw(texture, position - new Vector2(viewport.Width, viewport.Height), new Rectangle(0, 0, texture.Width, texture.Height),
-                    Color.White, rotation, origin, scale, SpriteEffects.None, sprite.depth);
-            if (position.X > (viewport.Width - (scale * texture.Width)) && position.Y < (scale * texture.Height))
-                spriteBatch.Draw(texture, position - new Vector2(viewport.Width, -viewport.Height), new Rectangle(0, 0, texture.Width, texture.Height),
-                    Color.White, rotation, origin, scale, SpriteEffects.None, sprite.depth);
-            if (position.X < (scale * texture.Width) && position.Y > (viewport.Height - (scale * texture.Height)))
-                spriteBatch.Draw(texture, position - new Vector2(-viewport.Width, viewport.Height), new Rectangle(0, 0, texture.Width, texture.Height),
-                    Color.White, rotation, origin, scale, SpriteEffects.None, sprite.depth);
-            if (position.X < (scale * texture.Width) && position.Y < (scale * texture.Height))
-                spriteBatch.Draw(texture, position - new Vector2(-viewport.Width, -viewport.Height), new Rectangle(0, 0, texture.Width, texture.Height),
-                    Color.White, rotation, origin, scale, SpriteEffects.None, sprite.depth);
+                if (position.X > (viewport.Width - (scale * texture.Width)) && position.Y > (viewport.Height - (scale * texture.Height)))
+                    spriteBatch.Draw(texture, position - new Vector2(viewport.Width, viewport.Height), new Rectangle(0, 0, texture.Width, texture.Height),
+                        Color.White, rotation, origin, scale, SpriteEffects.None, sprite.depth);
+                if (position.X > (viewport.Width - (scale * texture.Width)) && position.Y < (scale * texture.Height))
+                    spriteBatch.Draw(texture, position - new Vector2(viewport.Width, -viewport.Height), new Rectangle(0, 0, texture.Width, texture.Height),
+                        Color.White, rotation, origin, scale, SpriteEffects.None, sprite.depth);
+                if (position.X < (scale * texture.Width) && position.Y > (viewport.Height - (scale * texture.Height)))
+                    spriteBatch.Draw(texture, position - new Vector2(-viewport.Width, viewport.Height), new Rectangle(0, 0, texture.Width, texture.Height),
+                        Color.White, rotation, origin, scale, SpriteEffects.None, sprite.depth);
+                if (position.X < (scale * texture.Width) && position.Y < (scale * texture.Height))
+                    spriteBatch.Draw(texture, position - new Vector2(-viewport.Width, -viewport.Height), new Rectangle(0, 0, texture.Width, texture.Height),
+                        Color.White, rotation, origin, scale, SpriteEffects.None, sprite.depth);
+                blinkControl = false;
+            }
+            else
+                blinkControl = true;
+        }
+        #endregion
+
+        #region Life System
+        public void Die()
+        {
+            if (immunityTime <= 0)
+            {
+                lives--;
+                immunityTime = 2.0f;
+                ResetPositions();
+                if (lives < 0)
+                    game.Exit();
+            }
+        }
+
+        private void DrawLives(SpriteBatch spriteBatch, Viewport viewport)
+        {
+            for (int i = 0; i < lives; i++)
+                spriteBatch.Draw(spriteReel[2], new Vector2((i * 30) + 30, 30), new Rectangle(0, 0, texture.Width, texture.Height),
+                        Color.White, 0, origin, 0.3f, SpriteEffects.None, sprite.depth);
         }
         #endregion
         #endregion
